@@ -1,4 +1,7 @@
 # vacccinetracker
+build by : vue.js - vue router - vuex - sass - vue-chartkick.
+data from: OUR WORLD IN DATA.
+visit the ilve version : https://vaccine-tracker-covide19.netlify.app/
 
 ## Project setup
 ```
