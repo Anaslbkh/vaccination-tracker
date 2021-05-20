@@ -68,6 +68,7 @@ export default {
       border-radius: 20px;
       margin: 10px;
       opacity: 0.9;
+      cursor:pointer;
     }
   }
 }
