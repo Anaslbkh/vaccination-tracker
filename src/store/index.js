@@ -19,7 +19,6 @@ export default createStore({
     },
 
     async dataByCountry(state, { country }) {
-      console.dir(country)
       state.countryData = []
       // require csvtojson
       //var csv = require("csvtojson");
@@ -32,8 +31,6 @@ export default createStore({
         .fromStream(request.get(`https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/country_data/${country}.csv`))
         .subscribe((json) => {
           return new Promise((resolve, reject) => {
-            // long operation for each json e.g. transform / write into database.
-            // console.log(json)
             state.countryData.push(json);
             resolve(() => { return this.state.countryData })
 
@@ -42,7 +39,6 @@ export default createStore({
           })
 
         });
-      console.log(this.state)
     }
   },
   actions: {
@@ -50,7 +46,6 @@ export default createStore({
       commit("getWorldData")
     },
     async dataByCountry({ commit }, country) {
-      console.log(country)
       await commit("dataByCountry", { country })
       return this.state.countryData
     }

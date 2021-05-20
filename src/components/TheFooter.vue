@@ -24,7 +24,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  margin-top: 53vh;
+  margin-top: 55vh;
   bottom: 0;
 
   @media screen and (max-width: 350px) {

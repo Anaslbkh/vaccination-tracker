@@ -17,6 +17,17 @@
     <p v-if="country !== null && showCountryName">
       The vaccination process in <strong>{{ country }}</strong> last week
     </p>
+    <div class="vaccine-detai">
+      <p v-if="country !== null && showCountryName">
+        last time is data updated: {{ lastDayData[0].date }}
+      </p>
+      <p v-if="country !== null && showCountryName">
+        total vaccinations: {{ lastDayData[0].total_vaccinations }}
+      </p>
+      <p v-if="country !== null && showCountryName">
+        vaccines: {{ lastDayData[0].vaccine }}
+      </p>
+    </div>
     <line-chart
       thousands=","
       empty="Please choose a country or refresh to see the data"
@@ -31,6 +42,7 @@
 export default {
   data() {
     return {
+      lastDayData: [],
       showLine: true,
       showCountryName: false,
       country: null,
@@ -296,38 +308,25 @@ export default {
       ],
     };
   },
-  mounted() {
-    /* this.$store.dispatch("dataByCountry").then((data) => {
-      console.dir(data);
-    });*/
-  },
   watch: {
-    country: async function (valm, ldval) {
+    country: async function () {
       this.showLine = false;
-      console.log(valm + "++++++" + ldval);
-      const cnt = await this.$store.dispatch("dataByCountry", this.country);
+      await this.$store.dispatch("dataByCountry", this.country);
       this.data[0].data = {};
       this.data[1].data = {};
       this.data[2].data = {};
       this.showCountryName = false;
       this.showLine = true;
-
-      console.log(cnt);
     },
   },
   methods: {
     async showdata() {
-      // console.log(Object.keys(this.$store.state.countryData.slice(-7)[0])[1]);
+      this.lastDayData = this.$store.state.countryData.slice(-1);
       this.$store.state.countryData.slice(-7).forEach((element) => {
-        console.log(Object.keys(element)[1]);
-
         this.data[0].data[element.date] = element.people_fully_vaccinated;
         this.data[1].data[element.date] = element.people_vaccinated;
         this.data[2].data[element.date] = element.total_vaccinations;
       });
-
-      // this.data.data[0].date
-      console.log(this.data);
       await setTimeout(() => {
         this.showLine = false;
       }, 100);
@@ -367,6 +366,16 @@ button {
   font-size: 18px;
   cursor: pointer;
   letter-spacing: 5px;
+}
+.vaccine-detail {
+  display: flex;
+  align-content: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-items: center;
+  p {
+    padding: 15px;
+  }
 }
 p {
   margin-bottom: 30px;
